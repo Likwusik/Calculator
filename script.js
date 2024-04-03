@@ -2,7 +2,7 @@ import { sum, subtract, multiply, divide } from "./calculator.js";
 
 let output = document.querySelector("#output");
 
-let firstNumber = "";
+let firstNumber = 0;
 let operation = null;
 let resetAfterOperation = false;
 
