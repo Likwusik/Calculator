@@ -1,62 +1,60 @@
-import { sum, subtract, multiply, divide } from "./calculator.js";
-
-let output = document.querySelector("#output");
-
-let firstNumber = 0;
-let operation = null;
+let result = document.querySelector("#result");
+let calculation = document.querySelector("#calculation");
 let resetAfterOperation = false;
 
 document.querySelectorAll("#calculator .number").forEach((button) => {
   button.addEventListener("click", (event) => {
     let value = event.currentTarget.textContent;
     if (resetAfterOperation) {
-      output.value = value;
+      calculation.value = value;
       resetAfterOperation = false;
     } else {
-      output.value += value;
+      calculation.value += value;
     }
   });
 });
 
 document.querySelectorAll("#calculator .operation").forEach((button) => {
   button.addEventListener("click", (event) => {
-    firstNumber = output.value;
-    operation = event.currentTarget.dataset.action;
-    resetAfterOperation = true;
+    let symbol = event.currentTarget.dataset.action;
+    calculation.value += symbol;
+  });
+});
+
+document.querySelectorAll("#calculator .clear").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    calculation.value = "";
+    result.value = "";
+  });
+});
+
+document.querySelectorAll("#calculator .undo").forEach((button) => {
+  button.addEventListener("click", (event) => {
+    let lastOne = calculation.value.slice(-1);
+    let lastTwo = calculation.value.slice(-2);
+
+    if (lastTwo === ") " || lastTwo === " (") {
+      calculation.value = calculation.value.slice(0, -2);
+    } else if (lastOne === " ") {
+      calculation.value = calculation.value.slice(0, -3);
+    } else {
+      calculation.value = calculation.value.slice(0, -1);
+    }
   });
 });
 
 const equal = document.querySelector("#calculator .equal");
 equal.addEventListener("click", () => {
-  if (!operation) {
-    return;
-  }
   resetAfterOperation = true;
-  let secondNumber = output.value;
 
-  let result;
-  switch (operation) {
-    case "sum":
-      result = sum(firstNumber, secondNumber);
-      break;
-    case "subtract":
-      result = subtract(firstNumber, secondNumber);
-      break;
-    case "multiply":
-      result = multiply(firstNumber, secondNumber);
-      break;
-    case "divide":
-      if (secondNumber === 0) {
-        result = "Error: Division by zero";
-      } else {
-        result = divide(firstNumber, secondNumber);
-      }
-      break;
-    default:
-      result = "Error: Unknown operation";
-      break;
+  try {
+    let val = eval(calculation.value);
+    if (!isFinite(val)) {
+      result.value = "You can't divide by 0";
+    } else {
+      result.value = val;
+    }
+  } catch (error) {
+    result.value = error.message;
   }
-  output.value = result;
-  //reset operation
-  operation = null;
 });
