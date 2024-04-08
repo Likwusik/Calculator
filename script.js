@@ -2,7 +2,6 @@ let result = document.querySelector("#result");
 let calculation = document.querySelector("#calculation");
 let resetAfterOperation = false;
 
-
 //Numbers logic
 document.querySelectorAll("#calculator .number").forEach((button) => {
   button.addEventListener("click", (event) => {
@@ -32,9 +31,8 @@ document.querySelectorAll("#calculator .clear").forEach((button) => {
   });
 });
 
-
 // Undo button logic
-document.querySelectorAll("#calculator .undo").forEach((button) => {
+document.querySelectorAll("#calculator_head .undo").forEach((button) => {
   button.addEventListener("click", (event) => {
     let lastOne = calculation.value.slice(-1);
     let lastTwo = calculation.value.slice(-2);
@@ -48,7 +46,6 @@ document.querySelectorAll("#calculator .undo").forEach((button) => {
     }
   });
 });
-
 
 //Calculation part with catching errors
 const equal = document.querySelector("#calculator .equal");
