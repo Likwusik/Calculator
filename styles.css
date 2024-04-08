@@ -9,6 +9,7 @@ body {
   position: relative;
 }
 
+/* Header bar style */
 .navbar {
   background-color: rgba(255, 229, 204, 0.713);
   justify-content: space-between;
@@ -33,6 +34,7 @@ h1 {
   text-shadow: 0 1px 1px #fff;
 }
 
+/* The whole calculator style */
 .container {
   position: static;
   background-color: #c9c2bc;
@@ -43,6 +45,7 @@ h1 {
   margin: auto;
 }
 
+/* The top of calculator (calculation bar, result bar, undo button) style */
 #calculator_head {
   background-color: #413b369e;
   position: relative;
@@ -58,11 +61,7 @@ h1 {
   color: #fff;
   border-radius: 6px;
   word-wrap: break-word;
-}
-
-/* C (clear button) style */
-.clear {
-  color: rgb(130, 123, 123);
+  min-height: 18px;
 }
 
 /* Result bar style */
@@ -78,6 +77,8 @@ h1 {
   word-wrap: break-word;
   max-width: 230px;
 }
+
+/* All buttons style */
 
 /* Buttons positioning */
 #calculator {
@@ -111,9 +112,10 @@ h1 {
 #calculator_head button {
   background-color: rgb(216, 165, 165);
   border-radius: 6px;
-  padding-right: 14px;
+  padding-right: 12px;
   padding-top: 20px;
   padding-bottom: 11px;
+  padding-left: 12px;
   margin-bottom: 5px;
   font-size: 18px;
   outline: none;
@@ -126,12 +128,30 @@ h1 {
   background-color: rgb(170, 97, 96);
   border-radius: 12px;
   border-radius: 6px;
-  padding-right: 14px;
-  padding-top: 18px;
-  padding-bottom: 8px;
+  padding-right: 18px;
+  padding-top: 20px;
+  padding-bottom: 11px;
+  padding-left: 6px;
   margin-bottom: 5px;
   font-size: 18px;
   outline: none;
   border: 0;
   position: sticky;
+  color: #fff;
+}
+
+/* C (clear button) style */
+.clear {
+  color: rgb(140, 70, 70);
+  font-weight: bold;
+}
+
+/* All operation buttons style */
+.operation {
+  font-weight: bold;
+}
+
+/* Equil button style */
+.equal {
+  font-weight: bold;
 }
