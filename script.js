@@ -1,7 +1,9 @@
 let result = document.querySelector("#result");
 let calculation = document.querySelector("#calculation");
-let resetAfterOperation = false;
+let resetAfterOperation = true;
 let pressedOperatorLast = false;
+//let isNumber = false;
+let hasDot = false;
 let countBreckets = 0;
 
 //Function that checks brecket amounts
@@ -51,6 +53,13 @@ function checkValidity(symbol) {
 document.querySelectorAll("#calculator .number").forEach((button) => {
   button.addEventListener("click", (event) => {
     let value = event.currentTarget.textContent;
+    if (value === ".") {
+      if (hasDot) {
+        result.value = "Invalid input";
+        return;
+      }
+      hasDot = true;
+    }
     if (checkValidity(value)) return;
     if (resetAfterOperation) {
       calculation.value = value;
@@ -65,8 +74,21 @@ document.querySelectorAll("#calculator .number").forEach((button) => {
 document.querySelectorAll("#calculator .operation").forEach((button) => {
   button.addEventListener("click", (event) => {
     let symbol = event.currentTarget.dataset.action;
-    if (checkValidity(symbol)) return;
-    calculation.value += symbol;
+
+    if (resetAfterOperation) {
+      if (symbol === " (") {
+        calculation.value = symbol;
+        resetAfterOperation = false;
+        checkValidity(symbol);
+      } else {
+        calculation.value = "";
+        result.value = "Invalid input";
+      }
+    } else {
+      if (checkValidity(symbol)) return;
+      calculation.value += symbol;
+      hasDot = false;
+    }
   });
 });
 
@@ -77,6 +99,7 @@ document.querySelectorAll("#calculator .clear").forEach((button) => {
     result.value = "";
     countBreckets = 0;
     pressedOperatorLast = false;
+    hasDot = false;
   });
 });
 
@@ -94,9 +117,13 @@ document.querySelectorAll("#calculator_head .undo").forEach((button) => {
       countBreckets--;
     } else if (lastOne === " ") {
       calculation.value = calculation.value.slice(0, -3);
+    } else if (lastOne === ".") {
+      calculation.value = calculation.value.slice(0, -1);
+      hasDot = false;
     } else {
       calculation.value = calculation.value.slice(0, -1);
     }
+
     pressedOperatorLast = false;
     result.value = "";
   });
@@ -105,8 +132,6 @@ document.querySelectorAll("#calculator_head .undo").forEach((button) => {
 //Calculation part with catching errors
 const equal = document.querySelector("#calculator .equal");
 equal.addEventListener("click", () => {
-  resetAfterOperation = true;
-
   if (calculation.value === "") {
     result.value = "Empty input";
     return;
@@ -118,6 +143,8 @@ equal.addEventListener("click", () => {
       result.value = "You can't divide by 0";
     } else {
       result.value = val;
+      resetAfterOperation = true;
+      hasDot = false;
     }
   } catch (error) {
     result.value = error.message;
